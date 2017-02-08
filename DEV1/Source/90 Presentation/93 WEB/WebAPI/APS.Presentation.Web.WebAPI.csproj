@@ -16,6 +16,15 @@
     <Reference Include="FTS.Common.BaseClasses.CORE.GenericServicedComponent">
       <HintPath>..\..\..\..\Runtime\FTS.Common.BaseClasses.CORE.GenericServicedComponent.dll</HintPath>
     </Reference>
+    <Reference Include="FTS.Common.Constants.CORE">
+      <HintPath>..\..\..\..\Runtime\FTS.Common.Constants.CORE.dll</HintPath>
+    </Reference>
+    <Reference Include="FTS.Common.Constants.GTS">
+      <HintPath>..\..\..\..\Runtime\FTS.Common.Constants.GTS.dll</HintPath>
+    </Reference>
+    <Reference Include="FTS.Common.Libraries.CORE.SQLSelectStatement">
+      <HintPath>..\..\..\..\Runtime\FTS.Common.Libraries.CORE.SQLSelectStatement.dll</HintPath>
+    </Reference>
     <Reference Include="FTS.DataAccess.FTS.Orders">
       <HintPath>..\..\..\..\Runtime\FTS.DataAccess.FTS.Orders.dll</HintPath>
     </Reference>

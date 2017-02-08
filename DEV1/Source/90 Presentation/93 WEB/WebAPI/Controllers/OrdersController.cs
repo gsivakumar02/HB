@@ -5,7 +5,8 @@ using System.EnterpriseServices;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-//using FTS.Common.Libraries.CORE.GlobalFunctions;
+using FTS.Common.BaseClasses.CORE.GenericServicedComponent;
+using FTS.Common.Constants.GTS;
 using FTS.DataAccess.FTS.Orders;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -20,6 +21,24 @@ namespace APS.Presentation.Web.WebAPI.Controllers
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
+        }
+
+        [HttpGet("{msgio}/{id}")]
+        public ResponseDS Get(string msgio, int id)
+        {
+            GenericRetrieve obj;
+            if (msgio == MsgIO.I.ToString()) {
+                obj = new OutOrdersR();
+            } else {
+                obj = new InOrdersR();
+            }
+            try {
+                var ds = obj.GetByID(id);
+                return new ResponseDS(ds);
+            } catch (Exception ex) {
+                obj.Dispose();
+                return new ResponseDS(ex.Message, ex.ToString());
+            }
         }
 
         public class RequestGetCounters
@@ -37,22 +56,6 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             public int NrRows { get; set; }
         }
 
-        public class ResponseDS
-        {
-            public DataSet DS { get; set; }
-            public string ErrorShort { get; set; }
-            public string ErrorLong { get; set; }
-            public ResponseDS(DataSet ds)
-            {
-                DS = ds;
-            }
-            public ResponseDS(string errorShort, string errorLong)
-            {
-                ErrorShort = errorShort; ErrorLong = ErrorLong;
-            }
-
-        }
-
         // POST api/orders
         [HttpPost]
         public void Post([FromBody]string value)
@@ -65,7 +68,7 @@ namespace APS.Presentation.Web.WebAPI.Controllers
         {
             var obj = new OrdersFacadeR();
             try {
-                var ds = 
+                var ds =
                     obj.GetOrdersMonitorCounters2(r.BankId, r.FromDate, r.ToDate, r.Currency);
                 return new ResponseDS(ds);
             } catch (Exception ex) {
@@ -79,7 +82,7 @@ namespace APS.Presentation.Web.WebAPI.Controllers
         {
             var obj = new OrdersFacadeR();
             try {
-                var ds = 
+                var ds =
                     obj.GetOrdersForMonitor2(
                         r.BankId, r.Status, r.MsgIO, r.FromDate, r.ToDate, r.Currency, r.NrRows);
                 return new ResponseDS(ds);
