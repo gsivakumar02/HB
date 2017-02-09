@@ -16,7 +16,7 @@ namespace APS.Presentation.Web.WebAPI.Controllers
         }
         public ResponseDS(string errorShort, string errorLong)
         {
-            ErrorShort = errorShort; ErrorLong = ErrorLong;
+            ErrorShort = errorShort; ErrorLong = errorLong;
         }
     }
 

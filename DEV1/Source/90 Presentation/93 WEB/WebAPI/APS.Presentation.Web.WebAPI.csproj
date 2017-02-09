@@ -10,6 +10,7 @@
     <None Remove="wwwroot\**" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Remove="Controllers\TableController0.cs" />
     <Compile Remove="Controllers\ValuesController.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -24,6 +25,9 @@
     </Reference>
     <Reference Include="FTS.Common.Libraries.CORE.SQLSelectStatement">
       <HintPath>..\..\..\..\Runtime\FTS.Common.Libraries.CORE.SQLSelectStatement.dll</HintPath>
+    </Reference>
+    <Reference Include="FTS.DataAccess.CORE.SQLDataAccess">
+      <HintPath>..\..\..\..\Runtime\FTS.DataAccess.CORE.SQLDataAccess.dll</HintPath>
     </Reference>
     <Reference Include="FTS.DataAccess.FTS.Orders">
       <HintPath>..\..\..\..\Runtime\FTS.DataAccess.FTS.Orders.dll</HintPath>

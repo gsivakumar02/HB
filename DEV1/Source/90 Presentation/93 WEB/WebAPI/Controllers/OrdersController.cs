@@ -1,28 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.EnterpriseServices;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using FTS.Common.BaseClasses.CORE.GenericServicedComponent;
 using FTS.Common.Constants.GTS;
 using FTS.DataAccess.FTS.Orders;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace APS.Presentation.Web.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     public class OrdersController: Controller
     {
-        // GET: api/orders
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
+        // Get order by msgio and Id
+        // msgio: I: out-order, O: in-order
         [HttpGet("{msgio:length(1)}/{id:int}")]
         public ResponseDS Get(string msgio, int id)
         {
@@ -50,13 +46,7 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             public int NrRows { get; set; }
         }
 
-        // POST api/orders
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
-
-        // POST api/orders
+        // Get order counters for orders monitor
         [HttpPost("Counters")]
         public ResponseDS Post([FromBody]RequestGetCounters r)
         {
@@ -71,7 +61,8 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             }
         }
 
-        [HttpPost("OrderList")]
+        // Get order list for orders monitor
+        [HttpPost("List")]
         public ResponseDS Post([FromBody]RequestGetOrderList r)
         {
             var obj = new OrdersFacadeR();
@@ -96,27 +87,21 @@ namespace APS.Presentation.Web.WebAPI.Controllers
         }
 
         // Add order api/orders/I/1/<DataSet>
-        [HttpPost("{msgio:length(1)}/{id:int}")]
-        public ResponseDS Post(string msgio, int id, [FromBody]DataSet ds)
+        [HttpPost("{msgio:length(1)}")]
+        public ResponseDS Post(string msgio, [FromBody]DataSet ds)
         {
-            GenericUpdate obj = GetGenericUpdate(msgio);
+            var obj = GetGenericUpdate(msgio);
             return Common.Update(obj, ds);
         }
 
         // Update order api/orders/O/1/<DataSet>
-        [HttpPut("{msgio:length(1)}/{id:int}")]
-        public ResponseDS Put(string msgio, int id, [FromBody]DataSet ds)
+        [HttpPut("{msgio:length(1)}")]
+        public ResponseDS Put(string msgio, [FromBody]DataSet ds)
         {
-            GenericUpdate obj = GetGenericUpdate(msgio);
+            var obj = GetGenericUpdate(msgio);
             ds.AcceptChanges();
             ds.Tables[0].Rows[0].SetModified();
             return Common.Update(obj, ds);
-        }
-
-        // DELETE api/orders/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }
