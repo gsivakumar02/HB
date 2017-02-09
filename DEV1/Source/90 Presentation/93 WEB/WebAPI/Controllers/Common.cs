@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Data;
+using System.Xml;
+using Newtonsoft.Json;
 using FTS.Common.BaseClasses.CORE.GenericServicedComponent;
 
 namespace APS.Presentation.Web.WebAPI.Controllers
@@ -40,6 +42,25 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } catch (Exception ex) {
                 return new ResponseDS(ex.Message, ex.ToString());
             } finally { obj.Dispose(); }
+        }
+
+        public static void DataRowFieldToJson(DataSet ds, string fieldName)
+        {
+            if (ds != null && ds.Tables[0].Rows.Count > 0) {
+                var dr = ds.Tables[0].Rows[0];
+                var doc = new XmlDocument();
+                doc.LoadXml((string)dr[fieldName]);
+                dr[fieldName] = JsonConvert.SerializeXmlNode(doc);
+            }
+        }
+
+        public static void DataRowFieldToXml(DataSet ds, string fieldName)
+        {
+            if (ds != null && ds.Tables[0].Rows.Count > 0) {
+                var dr = ds.Tables[0].Rows[0];
+                var doc = JsonConvert.DeserializeXmlNode((string)dr[fieldName]);
+                dr[fieldName] = doc.OuterXml;
+            }
         }
     }
 }

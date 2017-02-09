@@ -28,7 +28,9 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } else {
                 obj = new InOrdersR();
             }
-            return Common.GetById(obj, id);
+            var rds = Common.GetById(obj, id);
+            Common.DataRowFieldToJson(rds.DS, "XML_Data");
+            return rds;
         }
 
         public class RequestGetCounters
@@ -91,6 +93,7 @@ namespace APS.Presentation.Web.WebAPI.Controllers
         public ResponseDS Post(string msgio, [FromBody]DataSet ds)
         {
             var obj = GetGenericUpdate(msgio);
+            Common.DataRowFieldToXml(ds, "XML_Data");
             return Common.Update(obj, ds);
         }
 
@@ -101,6 +104,7 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             var obj = GetGenericUpdate(msgio);
             ds.AcceptChanges();
             ds.Tables[0].Rows[0].SetModified();
+            Common.DataRowFieldToXml(ds, "XML_Data");
             return Common.Update(obj, ds);
         }
     }
