@@ -23,7 +23,7 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        [HttpGet("{msgio}/{id}")]
+        [HttpGet("{msgio:length(1)}/{id:int}")]
         public ResponseDS Get(string msgio, int id)
         {
             GenericRetrieve obj;
@@ -32,13 +32,7 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } else {
                 obj = new InOrdersR();
             }
-            try {
-                var ds = obj.GetByID(id);
-                return new ResponseDS(ds);
-            } catch (Exception ex) {
-                obj.Dispose();
-                return new ResponseDS(ex.Message, ex.ToString());
-            }
+            return Common.GetById(obj, id);
         }
 
         public class RequestGetCounters
@@ -92,10 +86,31 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             }
         }
 
-        // PUT api/orders/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        private GenericUpdate GetGenericUpdate(string msgio)
         {
+            if (msgio == MsgIO.I.ToString()) {
+                return new OutOrdersU();
+            } else {
+                return new InOrdersU();
+            }
+        }
+
+        // Add order api/orders/I/1/<DataSet>
+        [HttpPost("{msgio:length(1)}/{id:int}")]
+        public ResponseDS Post(string msgio, int id, [FromBody]DataSet ds)
+        {
+            GenericUpdate obj = GetGenericUpdate(msgio);
+            return Common.Update(obj, ds);
+        }
+
+        // Update order api/orders/O/1/<DataSet>
+        [HttpPut("{msgio:length(1)}/{id:int}")]
+        public ResponseDS Put(string msgio, int id, [FromBody]DataSet ds)
+        {
+            GenericUpdate obj = GetGenericUpdate(msgio);
+            ds.AcceptChanges();
+            ds.Tables[0].Rows[0].SetModified();
+            return Common.Update(obj, ds);
         }
 
         // DELETE api/orders/5
