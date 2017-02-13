@@ -1,0 +1,32 @@
+<div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="left start">
+    <div fxFlex.gt-md="30" fxFlex.gt-sm="100" fxFlex="100">
+        <md-card class="md-card-top leftBar">
+            <md-card-content class="material fullscreen">
+                <!--<form class="mb-1">
+                    <md-input placeholder="Filter nodes" #filter (keyup)="filterNodes(filter.value, tree)" style="width: 100%"></md-input>
+                </form>-->
+
+                <Tree #tree [nodes]="statusTree" [focused]="true" [options]="treeOptions">
+                    <!--<template #treeNodeTemplate let-node>
+            <span title="{{Description}}">{{ Description }}</span>
+            <span class="pull-right">{{ childrenCount(node) }}</span>
+                </template>-->
+                    <template #loadingTemplate>Loading, please hold....</template>
+                </Tree>
+            </md-card-content>
+        </md-card>
+    </div>
+    <div fxFlex.gt-md="70" fxFlex.gt-sm="100" fxFlex="100">
+        <!--<md-card class="md-card-top fullscreen">
+            <md-card-content>-->
+        <ngx-datatable class="material fullscreen" [rows]="rows" [columns]="columns" [sortType]="'multi'" [selected]="selected" [selectionType]="'single'" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [limit]=50>
+
+        </ngx-datatable>
+        <!--</md-card-content>
+        </md-card>-->
+    </div>
+</div>
+
+<div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="right start">
+
+</div>
