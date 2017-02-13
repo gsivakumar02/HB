@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using Microsoft.AspNetCore.Mvc;
+using FTS.BusinessLogic.FTS.Facade;
 using FTS.Common.Constants.CORE;
 using FTS.Common.Constants.FTS;
 using FTS.Common.Libraries.CORE.SQLSelectStatement;
@@ -40,39 +41,27 @@ namespace APS.Presentation.Web.WebAPI.Controllers
         {
             public int BankId { get; set; }
         }
-
         public class RequestOrdersCounters : RequestBankId
         {
             public DateTime FromDate { get; set; }
             public DateTime ToDate { get; set; }
             public string Currency { get; set; }
         }
-
         public class RequestOrdersList: RequestOrdersCounters
         {
             public int Status { get; set; }
             public string MsgIO { get; set; }
             public int NrRows { get; set; }
         }
-
-        public class RequestOutOrdersByTUN: RequestBankId
+        public class RequestIncomingCover202ForCover: RequestBankId
         {
-            public string Tun { get; set; }
-            public DataAccessServers Db { get; set; }
+            public int OrderId;
+            public string Currency;
+            public string Amount;
+            public string Reference;
+            public string CorrespBIC;
+            public string ValueDate;
         }
-
-        public class RequestOutOrdersByFwdFromId
-        {
-            public int InOrderId { get; set; }
-            public DataAccessServers Db { get; set; }
-        }
-
-        public class RequestOutOrdersByStatus: RequestBankId
-        {
-            public FTSOutgoingOrderStatus Status { get; set; }
-            public DateTime EntryDate { get; set; }
-        }
-
         public class RequestInOrdersByRef: RequestBankId
         {
             public string Reference { get; set; }
@@ -81,6 +70,21 @@ namespace APS.Presentation.Web.WebAPI.Controllers
         {
             public int OrigOrderId { get; set; }
             public DataAccessServers Db { get; set; }
+        }
+        public class RequestOutOrdersByTUN: RequestBankId
+        {
+            public string Tun { get; set; }
+            public DataAccessServers Db { get; set; }
+        }
+        public class RequestOutOrdersByFwdFromId
+        {
+            public int InOrderId { get; set; }
+            public DataAccessServers Db { get; set; }
+        }
+        public class RequestOutOrdersByStatus: RequestBankId
+        {
+            public FTSOutgoingOrderStatus Status { get; set; }
+            public DateTime EntryDate { get; set; }
         }
 
        // Get order counters for orders monitor
@@ -112,7 +116,20 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        // InOrdersR.GetByOrigOrderId
+        [HttpPost("IncomingCover202ForCover")]
+        public ResponseDS IncomingCover202ForCover([FromBody]RequestIncomingCover202ForCover r)
+        {
+            var obj = new IncomingCoverR();
+            try {
+                var ds = obj.Get202ForCover(
+                    r.BankId, r.OrderId, r.Currency, 
+                    r.Amount, r.Reference, r.CorrespBIC, r.ValueDate);
+                return new ResponseDS(ds);
+            } catch (Exception ex) {
+                return new ResponseDS(ex.Message, ex.ToString());
+            } finally { obj.Dispose(); }
+        }
+
         [HttpPost("InOrdersByOrigOrderId")]
         public ResponseDS InOrdersByOrigOrderId([FromBody]RequestInOrdersByOrigOrderId r)
         {
@@ -126,7 +143,6 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        // InOrdersR.Get_DiasOnbyOtherCoverId
         [HttpPost("InOrdersByOtherCoverId")]
         public ResponseDS InOrdersByOtherCoverId([FromBody]int recvRepId)
         {
@@ -139,7 +155,6 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        // InOrdersR.GetByRef
         [HttpPost("InOrdersByRef")]
         public ResponseDS InOrdersByRef([FromBody]RequestInOrdersByRef r)
         {
@@ -153,7 +168,6 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        // OutOrdersR.GetbyFwdFromId
         [HttpPost("OutOrdersByFwdFromId")]
         public ResponseDS OutOrdersByFwdFromId([FromBody]RequestOutOrdersByFwdFromId r)
         {
@@ -166,7 +180,6 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        // OutOrdersR.GetByStatus
         [HttpPost("OutOrdersByStatus")]
         public ResponseDS OutOrdersByStatus([FromBody]RequestOutOrdersByStatus r)
         {
@@ -179,7 +192,6 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        // OutOrdersR.GetByTUN
         [HttpPost("OutOrdersByTUN")]
         public ResponseDS OutOrdersByTUN([FromBody]RequestOutOrdersByTUN r)
         {

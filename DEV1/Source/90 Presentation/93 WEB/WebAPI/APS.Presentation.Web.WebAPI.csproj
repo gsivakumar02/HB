@@ -14,6 +14,9 @@
     <Compile Remove="Controllers\ValuesController.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="FTS.BusinessLogic.FTS.Facade">
+      <HintPath>..\..\..\..\Runtime\FTS.BusinessLogic.FTS.Facade.dll</HintPath>
+    </Reference>
     <Reference Include="FTS.Common.BaseClasses.CORE.GenericServicedComponent">
       <HintPath>..\..\..\..\Runtime\FTS.Common.BaseClasses.CORE.GenericServicedComponent.dll</HintPath>
     </Reference>
