@@ -3,6 +3,9 @@ using System.Data;
 using System.Xml;
 using Newtonsoft.Json;
 using FTS.Common.BaseClasses.CORE.GenericServicedComponent;
+using FTS.Common.Constants.CORE;
+using FTS.Common.Libraries.CORE.SQLSelectStatement;
+using FTS.DataAccess.CORE.SQLDataAccess;
 
 namespace APS.Presentation.Web.WebAPI.Controllers
 {
@@ -24,10 +27,24 @@ namespace APS.Presentation.Web.WebAPI.Controllers
 
     public class Common
     {
-        public static ResponseDS GetById(GenericRetrieve obj, int id)
+        public static ResponseDS GetById(GenericRetrieve obj, int id, bool withCache)
         {
             try {
-                var ds = obj.GetByID(id);
+                var ds = obj.GetByID(id, DataAccessServers.FTS, SQLSelectStatement.HintOption.NoHint, withCache);
+                return new ResponseDS(ds);
+            } catch (Exception ex) {
+                return new ResponseDS(ex.Message, ex.ToString());
+            } finally { obj.Dispose(); }
+        }
+
+        public static ResponseDS GetBySelect(DataAccessServers db, string tablename, string cmdText)
+        {
+            var obj = new SQLDataAccess();
+            try {
+                var ds =
+                    obj.GetDataSet(
+                        tablename, cmdText, CommandType.Text, db, false);
+                ds.Tables[0].TableName = tablename;
                 return new ResponseDS(ds);
             } catch (Exception ex) {
                 return new ResponseDS(ex.Message, ex.ToString());

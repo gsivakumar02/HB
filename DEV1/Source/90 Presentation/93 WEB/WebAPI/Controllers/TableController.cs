@@ -11,19 +11,10 @@ namespace APS.Presentation.Web.WebAPI.Controllers
     {
         // Get dataset from db by tablename and id
         [HttpGet("{db:int}/{tablename:length(1,128)}/{id:int}")]
-        public ResponseDS Get(int db, string tablename, int id)
+        public ResponseDS Get(DataAccessServers db, string tablename, int id)
         {
-            var obj = new SQLDataAccess();
             var cmdtext = "SELECT * FROM " + tablename + " WHERE Id=" + id;
-            try {
-                var ds =
-                    obj.GetDataSet(
-                        tablename, cmdtext, CommandType.Text, (DataAccessServers)db, false);
-                ds.Tables[0].TableName = tablename;
-                return new ResponseDS(ds);
-            } catch (Exception ex) {
-                return new ResponseDS(ex.Message, ex.ToString());
-            } finally { obj.Dispose(); }
+            return Common.GetBySelect(db, tablename, cmdtext);
         }
 
         // Add dataset to db

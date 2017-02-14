@@ -23,7 +23,7 @@ namespace APS.Presentation.Web.WebAPI.Controllers
         public ResponseDS InOrderById(int id)
         {
             var obj = new InOrdersR();
-            var rds = Common.GetById(obj, id);
+            var rds = Common.GetById(obj, id, false);
             Common.DataRowFieldToJson(rds.DS, "XML_Data");
             return rds;
         }
@@ -32,59 +32,62 @@ namespace APS.Presentation.Web.WebAPI.Controllers
         public ResponseDS OutOrderById(int id)
         {
             var obj = new OutOrdersR();
-            var rds = Common.GetById(obj, id);
+            var rds = Common.GetById(obj, id, false);
             Common.DataRowFieldToJson(rds.DS, "XML_Data");
             return rds;
         }
 
         public class RequestBankId
         {
-            public int BankId { get; set; }
+            public int BankId;
         }
         public class RequestOrdersCounters : RequestBankId
         {
-            public DateTime FromDate { get; set; }
-            public DateTime ToDate { get; set; }
-            public string Currency { get; set; }
+            public DateTime FromDate;
+            public DateTime ToDate;
+            public string Currency;
         }
         public class RequestOrdersList: RequestOrdersCounters
         {
-            public int Status { get; set; }
-            public string MsgIO { get; set; }
-            public int NrRows { get; set; }
+            public int Status;
+            public string MsgIO;
+            public int NrRows;
         }
-        public class RequestIncomingCover202ForCover: RequestBankId
+        public class RequestIncomingCover: RequestBankId
         {
-            public int OrderId;
             public string Currency;
             public string Amount;
             public string Reference;
             public string CorrespBIC;
             public string ValueDate;
         }
+        public class RequestIncomingCoverOrderId: RequestIncomingCover
+        {
+            public int OrderId;
+        }
         public class RequestInOrdersByRef: RequestBankId
         {
-            public string Reference { get; set; }
+            public string Reference;
         }
         public class RequestInOrdersByOrigOrderId
         {
-            public int OrigOrderId { get; set; }
-            public DataAccessServers Db { get; set; }
+            public int OrigOrderId;
+            public DataAccessServers Db;
         }
         public class RequestOutOrdersByTUN: RequestBankId
         {
-            public string Tun { get; set; }
-            public DataAccessServers Db { get; set; }
+            public string Tun;
+            public DataAccessServers Db;
         }
         public class RequestOutOrdersByFwdFromId
         {
-            public int InOrderId { get; set; }
-            public DataAccessServers Db { get; set; }
+            public int InOrderId;
+            public DataAccessServers Db;
         }
         public class RequestOutOrdersByStatus: RequestBankId
         {
-            public FTSOutgoingOrderStatus Status { get; set; }
-            public DateTime EntryDate { get; set; }
+            public FTSOutgoingOrderStatus Status;
+            public DateTime EntryDate;
         }
 
        // Get order counters for orders monitor
@@ -116,14 +119,83 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
+        [HttpPost("IncomingAllPossibleCovers")]
+        public ResponseDS IncomingAllPossibleCovers([FromBody]int orderId)
+        {
+            var obj = new IncomingCoverR();
+            try {
+                var ds = obj.GetAllPossibleCovers(orderId);
+                return new ResponseDS(ds);
+            } catch (Exception ex) {
+                return new ResponseDS(ex.Message, ex.ToString());
+            } finally { obj.Dispose(); }
+        }
+
         [HttpPost("IncomingCover202ForCover")]
-        public ResponseDS IncomingCover202ForCover([FromBody]RequestIncomingCover202ForCover r)
+        public ResponseDS IncomingCover202ForCover([FromBody]RequestIncomingCoverOrderId r)
         {
             var obj = new IncomingCoverR();
             try {
                 var ds = obj.Get202ForCover(
-                    r.BankId, r.OrderId, r.Currency, 
+                    r.BankId, r.OrderId, r.Currency,
                     r.Amount, r.Reference, r.CorrespBIC, r.ValueDate);
+                return new ResponseDS(ds);
+            } catch (Exception ex) {
+                return new ResponseDS(ex.Message, ex.ToString());
+            } finally { obj.Dispose(); }
+        }
+
+        [HttpPost("IncomingConfirmationOrdersForMT900")]
+        public ResponseDS IncomingConfirmationOrdersForMT900([FromBody]RequestIncomingCover r)
+        {
+            var obj = new IncomingCoverR();
+            try {
+                var ds = obj.GetConfirmationOrders_For_MT900(
+                    r.BankId, r.Currency,
+                    r.Amount, r.Reference, r.CorrespBIC, r.ValueDate);
+                return new ResponseDS(ds);
+            } catch (Exception ex) {
+                return new ResponseDS(ex.Message, ex.ToString());
+            } finally { obj.Dispose(); }
+        }
+
+        [HttpPost("IncomingConfirmationOrders")]
+        public ResponseDS IncomingConfirmationOrders([FromBody]RequestIncomingCover r)
+        {
+            var obj = new IncomingCoverR();
+            try {
+                var ds = obj.GetConfirmationOrders(
+                    r.BankId, r.Currency,
+                    r.Amount, r.Reference, r.CorrespBIC, r.ValueDate);
+                return new ResponseDS(ds);
+            } catch (Exception ex) {
+                return new ResponseDS(ex.Message, ex.ToString());
+            } finally { obj.Dispose(); }
+        }
+
+        [HttpPost("IncomingExtraitOrders")]
+        public ResponseDS IncomingExtraitOrders([FromBody]RequestIncomingCover r)
+        {
+            var obj = new IncomingCoverR();
+            try {
+                var ds = obj.GetExtraitOrders(
+                    r.BankId, r.Currency,
+                    r.Amount, r.Reference, r.CorrespBIC, r.ValueDate);
+                return new ResponseDS(ds);
+            } catch (Exception ex) {
+                return new ResponseDS(ex.Message, ex.ToString());
+            } finally { obj.Dispose(); }
+        }
+
+        [HttpPost("IncomingCustomerCreditTransferOrders")]
+        public ResponseDS IncomingCustomerCreditTransferOrders([FromBody]RequestIncomingCover r)
+        {
+            var obj = new IncomingCoverR();
+            var amount = decimal.Parse(r.Amount.Replace(".", ","));
+            try {
+                var ds = obj.GetCustomerCreditTransferOrders(
+                    r.BankId, r.Currency,
+                    amount, r.Reference, r.CorrespBIC, r.ValueDate);
                 return new ResponseDS(ds);
             } catch (Exception ex) {
                 return new ResponseDS(ex.Message, ex.ToString());

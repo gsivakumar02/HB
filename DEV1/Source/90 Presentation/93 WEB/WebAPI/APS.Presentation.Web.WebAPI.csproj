@@ -32,11 +32,26 @@
     <Reference Include="FTS.Common.Libraries.CORE.SQLSelectStatement">
       <HintPath>..\..\..\..\Runtime\FTS.Common.Libraries.CORE.SQLSelectStatement.dll</HintPath>
     </Reference>
+    <Reference Include="FTS.Common.Libraries.CORE.UserParams">
+      <HintPath>..\..\..\..\Runtime\FTS.Common.Libraries.CORE.UserParams.dll</HintPath>
+    </Reference>
+    <Reference Include="FTS.DataAccess.CBO.Banks">
+      <HintPath>..\..\..\..\Runtime\FTS.DataAccess.CBO.Banks.dll</HintPath>
+    </Reference>
+    <Reference Include="FTS.DataAccess.CBO.Services">
+      <HintPath>..\..\..\..\Runtime\FTS.DataAccess.CBO.Services.dll</HintPath>
+    </Reference>
     <Reference Include="FTS.DataAccess.CORE.SQLDataAccess">
       <HintPath>..\..\..\..\Runtime\FTS.DataAccess.CORE.SQLDataAccess.dll</HintPath>
     </Reference>
+    <Reference Include="FTS.DataAccess.FTS.OnlineConfigurator">
+      <HintPath>..\..\..\..\Runtime\FTS.DataAccess.FTS.OnlineConfigurator.dll</HintPath>
+    </Reference>
     <Reference Include="FTS.DataAccess.FTS.Orders">
       <HintPath>..\..\..\..\Runtime\FTS.DataAccess.FTS.Orders.dll</HintPath>
+    </Reference>
+    <Reference Include="FTS.DataAccess.IBC.Data">
+      <HintPath>..\..\..\..\Runtime\FTS.DataAccess.IBC.Data.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
