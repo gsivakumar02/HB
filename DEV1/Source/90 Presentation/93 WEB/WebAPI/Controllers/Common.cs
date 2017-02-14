@@ -9,6 +9,11 @@ using FTS.DataAccess.CORE.SQLDataAccess;
 
 namespace APS.Presentation.Web.WebAPI.Controllers
 {
+    public class DataSetIsNullException: Exception
+    {
+        public DataSetIsNullException() : base("DataSet is null") { }
+    }
+
     public class ResponseDS
     {
         public DataSet DS { get; set; }
@@ -51,9 +56,16 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        public static ResponseDS Update(GenericUpdate obj, DataSet ds)
+        public static ResponseDS Update(GenericUpdate obj, DataSet ds, bool isAdd, string xmlField)
         {
             try {
+                if (ds == null)
+                    throw new DataSetIsNullException();
+                if (!isAdd) {
+                    ds.AcceptChanges();
+                    ds.Tables[0].Rows[0].SetModified();
+                }
+                DataRowFieldToXml(ds, xmlField);
                 ds = obj.Update(ds);
                 return new ResponseDS(ds);
             } catch (Exception ex) {
@@ -73,7 +85,7 @@ namespace APS.Presentation.Web.WebAPI.Controllers
 
         public static void DataRowFieldToXml(DataSet ds, string fieldName)
         {
-            if (ds != null && ds.Tables[0].Rows.Count > 0) {
+            if (ds != null && ds.Tables[0].Rows.Count > 0 && fieldName != "") {
                 var dr = ds.Tables[0].Rows[0];
                 var doc = JsonConvert.DeserializeXmlNode((string)dr[fieldName]);
                 dr[fieldName] = doc.OuterXml;

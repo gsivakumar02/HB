@@ -106,7 +106,7 @@ namespace APS.Presentation.Web.WebAPI.Controllers
 
         // Get order list for orders monitor
         [HttpPost("OrdersList")]
-        public ResponseDS Post([FromBody]RequestOrdersList r)
+        public ResponseDS OrdersList([FromBody]RequestOrdersList r)
         {
             var obj = new OrdersFacadeR();
             try {
@@ -280,36 +280,29 @@ namespace APS.Presentation.Web.WebAPI.Controllers
         public ResponseDS InOrdersAdd([FromBody]DataSet ds)
         {
             var obj = new InOrdersU();
-            Common.DataRowFieldToXml(ds, "XML_Data");
-            return Common.Update(obj, ds);
+            return Common.Update(obj, ds, true, "XML_Data");
         }
 
         [HttpPost("OutOrdersAdd")]
         public ResponseDS OutOrdersAdd([FromBody]DataSet ds)
         {
             var obj = new OutOrdersU();
-            Common.DataRowFieldToXml(ds, "XML_Data");
-            return Common.Update(obj, ds);
+            return Common.Update(obj, ds, true, "XML_Data");
         }
+
 
         [HttpPut("InOrdersUpdate")]
         public ResponseDS InOrdersUpdate([FromBody]DataSet ds)
         {
             var obj = new InOrdersU();
-            ds.AcceptChanges();
-            ds.Tables[0].Rows[0].SetModified();
-            Common.DataRowFieldToXml(ds, "XML_Data");
-            return Common.Update(obj, ds);
+            return Common.Update(obj, ds, false, "XML_Data");
         }
 
         [HttpPut("OutOrdersUpdate")]
         public ResponseDS OutOrdersUpdate([FromBody]DataSet ds)
         {
             var obj = new OutOrdersU();
-            ds.AcceptChanges();
-            ds.Tables[0].Rows[0].SetModified();
-            Common.DataRowFieldToXml(ds, "XML_Data");
-            return Common.Update(obj, ds);
+            return Common.Update(obj, ds, false, "XML_Data");
         }
 
     }
