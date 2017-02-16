@@ -16,7 +16,7 @@ export const OrdersMonitorRoutes: Routes = [
   {
     path: '',
     children: [{
-      path: 'orders-monitor',
+      path: 'monitor',
       component: OrdersMonitorComponent
     }]
   }

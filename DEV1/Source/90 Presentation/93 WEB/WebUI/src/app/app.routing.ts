@@ -11,9 +11,9 @@ export const AppRoutes: Routes = [{
   path: '',
   component: AdminLayoutComponent,
   children: [{
-    path: 'home',
-    loadChildren: './orders-monitor/ordersMonitor.module#OrdersMonitorModule'
-  
+      path: 'orders',
+      loadChildren: './orders-monitor/ordersMonitor.module#OrdersMonitorModule'
+  },
 // }, {
 //     path: 'apps',
 //     loadChildren: './apps/apps.module#AppsModule'
@@ -23,10 +23,12 @@ export const AppRoutes: Routes = [{
 //   }, {
 //     path: 'material',
 //     loadChildren: './material/material.module#MaterialComponentsModule'
-//   }, {
-//     path: 'forms',
-//     loadChildren: './forms/forms.module#FormModule'
-//   }, {
+//   },
+     {
+     path: 'forms',
+     loadChildren: './forms/forms.module#FormModule'
+ //  }, 
+      //   {
 //     path: 'tables',
 //     loadChildren: './tables/tables.module#TablesModule'
 //   }, {

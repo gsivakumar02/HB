@@ -12,6 +12,7 @@ import { TreeModule } from 'angular2-tree-component';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { FlexLayoutModule } from "@angular/flex-layout";
 
+import { OrdersService } from '../_services/orders.service';
 import { OrdersMonitorComponent } from './orders-monitor.component';
 import { OrdersMonitorRoutes } from './ordersmonitor.routing';
 import { OrdersMonitorTreeComponent } from './ordersmonitorTree.component';
@@ -28,7 +29,8 @@ import { OrdersMonitorTreeComponent } from './ordersmonitorTree.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(OrdersMonitorRoutes),MaterialModule, MdCardModule, MdIconModule, MdInputModule, MdRadioModule, MdButtonModule, MdProgressBarModule, MdToolbarModule, FlexLayoutModule, NgxDatatableModule, FormsModule, ReactiveFormsModule,  TreeModule],
-  declarations: [ OrdersMonitorComponent, OrdersMonitorTreeComponent  ]
+  declarations: [OrdersMonitorComponent, OrdersMonitorTreeComponent],
+  providers: [OrdersService]
 })
 
 export class OrdersMonitorModule {}

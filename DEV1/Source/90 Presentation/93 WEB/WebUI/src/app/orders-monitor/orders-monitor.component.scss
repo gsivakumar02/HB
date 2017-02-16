@@ -4,11 +4,14 @@
     height: 100%;
 }
 
-.datatable-row-even {
-    background-color: grey;
-}
-
-.datatable .datatable-body {
+// .datatable,
+// .datatable>div,
+// .datatable-row-even {
+//     background-color: grey;
+// }
+.datatable,
+.datatable>div,
+.datatable-body {
     height: 80vh;
 }
 
@@ -16,3 +19,4 @@
     height: 90vh;
     overflow-y: scroll;
 }
+
