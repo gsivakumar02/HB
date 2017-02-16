@@ -9,7 +9,6 @@
                 <Tree #tree [nodes]="statusTree" [focused]="true" [options]="treeOptions">
                     <template #treeNodeTemplate let-node>
                         <span fxFlex.gt-md="70" fxFlex.gt-sm="70" title="{{ node.data.description}}">{{ node.data.description }}</span>
-                        <!--<span class="pull-right">{{ childrenCount(node) }}</span>-->
                           <span fxFlex.gt-md="30" fxFlex.gt-sm="30" title="{{ node.data.count}}">{{ node.data.count }}</span>
                 </template>
                     <template #loadingTemplate>Loading, please hold....</template>
@@ -20,14 +19,15 @@
     <div fxFlex.gt-md="70" fxFlex.gt-sm="100" fxFlex="100">
         <!--<md-card class="md-card-top fullscreen">
             <md-card-content>-->
-        <ngx-datatable class="material fulscreen " [rows]="rows" [columns]="columns" [sortType]="'multi'" [selected]="selected" [selectionType]="'single'" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [limit]=50>
+        <ngx-datatable class="material fulscreen " [rows]="rows" [columns]="columns" [sortType]="'multi'" [selected]="selected" [selectionType]="'single'" [columnMode]="'force'" (select)="onSelect($event)" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true"
+            [limit]=50>
 
         </ngx-datatable>
         <!--</md-card-content>
         </md-card>-->
     </div>
 </div>
-
+<button (click)="showOrder()">show</button>
 <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="right start">
 
 </div>

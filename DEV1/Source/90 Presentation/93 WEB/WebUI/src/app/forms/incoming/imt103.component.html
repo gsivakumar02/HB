@@ -1,0 +1,49 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div fxLayout="row" fxLayoutWrap="wrap">
+        <div flex-xs flex-gt-xs="50" flex-gt-md="50" layout="column">
+            <md-card layout-xs="column" layout="row">
+                <md-card-subtitle>Sender Receiver</md-card-subtitle>
+
+                <md-card-content>
+                    <div fxLayout="row" fxLayoutWrap="wrap">
+
+                        <md-input placeholder="<S>" [formControl]="form.controls['Sender']" style="width: 100%"></md-input>
+                        <!--<small *ngIf="form.controls['sender'].hasError('required') && form.controls['sender'].touched" class="md-text-warn">You must include a first name.</small>
+                        <small *ngIf="form.controls['sender'].hasError('minlength') && form.controls['sender'].touched" class="md-text-warn">Your first name must be at least 5 characters long.</small>
+                        <small *ngIf="form.controls['sender'].hasError('maxlength') && form.controls['sender'].touched" class="md-text-warn">Your first name cannot exceed 10 characters.</small>-->
+                    </div>
+                    <div fxLayout="row" fxLayoutWrap="wrap">
+                        <md-input placeholder="<R>" [formControl]="form.controls['Receiver']" style="width: 100%"></md-input>
+                        <!--<small *ngIf="form.controls['fname'].hasError('required') && form.controls['fname'].touched" class="md-text-warn">You must include a first name.</small>
+                        <small *ngIf="form.controls['fname'].hasError('minlength') && form.controls['fname'].touched" class="md-text-warn">Your first name must be at least 5 characters long.</small>
+                        <small *ngIf="form.controls['fname'].hasError('maxlength') && form.controls['fname'].touched" class="md-text-warn">Your first name cannot exceed 10 characters.</small>-->
+                    </div>
+                </md-card-content>
+            </md-card>
+        </div>
+        <div flex-xs flex-gt-xs="50" flex-gt-md="50" layout="column">
+            <md-card>
+                <md-card-content>
+                    <div fxLayout="row" fxLayoutWrap="wrap">
+                        <!--<md-input placeholder="Coresp.BIC" [formControl]="form.controls['msgIO']" style="width: 100%"></md-input>-->
+                        <!--<small *ngIf="form.controls['fname'].hasError('required') && form.controls['fname'].touched" class="md-text-warn">You must include a first name.</small>
+                        <small *ngIf="form.controls['fname'].hasError('minlength') && form.controls['fname'].touched" class="md-text-warn">Your first name must be at least 5 characters long.</small>
+                        <small *ngIf="form.controls['fname'].hasError('maxlength') && form.controls['fname'].touched" class="md-text-warn">Your first name cannot exceed 10 characters.</small>-->
+                    </div>
+                    <div fxLayout="row" fxLayoutWrap="wrap">
+                        <!--<md-input placeholder="Coresp.Acc Type" [formControl]="form.controls['msgIO']" style="width: 100%"></md-input>-->
+                        <!--<small *ngIf="form.controls['fname'].hasError('required') && form.controls['fname'].touched" class="md-text-warn">You must include a first name.</small>
+                        <small *ngIf="form.controls['fname'].hasError('minlength') && form.controls['fname'].touched" class="md-text-warn">Your first name must be at least 5 characters long.</small>
+                        <small *ngIf="form.controls['fname'].hasError('maxlength') && form.controls['fname'].touched" class="md-text-warn">Your first name cannot exceed 10 characters.</small>-->
+                    </div>
+                    <div fxLayout="row" fxLayoutWrap="wrap">
+                        <!--<md-input placeholder="Coresp Account" [formControl]="form.controls['msgIO']" style="width: 100%"></md-input>-->
+                        <!--<small *ngIf="form.controls['fname'].hasError('required') && form.controls['fname'].touched" class="md-text-warn">You must include a first name.</small>
+                        <small *ngIf="form.controls['fname'].hasError('minlength') && form.controls['fname'].touched" class="md-text-warn">Your first name must be at least 5 characters long.</small>
+                        <small *ngIf="form.controls['fname'].hasError('maxlength') && form.controls['fname'].touched" class="md-text-warn">Your first name cannot exceed 10 characters.</small>-->
+                    </div>
+                </md-card-content>
+            </md-card>
+        </div>
+    </div>
+</form>

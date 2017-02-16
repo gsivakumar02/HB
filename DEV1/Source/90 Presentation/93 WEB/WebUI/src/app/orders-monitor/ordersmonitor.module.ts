@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HttpModule } from '@angular/http';
 
 
-import { MaterialModule, MdCardModule, MdIconModule, MdInputModule, MdRadioModule, MdButtonModule, MdProgressBarModule, MdToolbarModule } from "@angular/material";
+import { MaterialModule,MdDialog, MdCardModule, MdIconModule, MdInputModule, MdRadioModule, MdButtonModule, MdProgressBarModule, MdToolbarModule } from "@angular/material";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
@@ -16,6 +16,7 @@ import { OrdersService } from '../_services/orders.service';
 import { OrdersMonitorComponent } from './orders-monitor.component';
 import { OrdersMonitorRoutes } from './ordersmonitor.routing';
 import { OrdersMonitorTreeComponent } from './ordersmonitorTree.component';
+import { Imt103Component } from '../forms/incoming/imt103.component';
 
 
 // import { TablesRoutes } from './tables.routing';
@@ -29,7 +30,8 @@ import { OrdersMonitorTreeComponent } from './ordersmonitorTree.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(OrdersMonitorRoutes),MaterialModule, MdCardModule, MdIconModule, MdInputModule, MdRadioModule, MdButtonModule, MdProgressBarModule, MdToolbarModule, FlexLayoutModule, NgxDatatableModule, FormsModule, ReactiveFormsModule,  TreeModule],
-  declarations: [OrdersMonitorComponent, OrdersMonitorTreeComponent],
+  declarations: [OrdersMonitorComponent, OrdersMonitorTreeComponent, Imt103Component],
+  entryComponents:  [Imt103Component],
   providers: [OrdersService]
 })
 

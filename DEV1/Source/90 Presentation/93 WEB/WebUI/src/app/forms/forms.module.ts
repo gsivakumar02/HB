@@ -14,10 +14,11 @@ import { FormUploadComponent } from './form-upload/form-upload.component';
 import { FormValidationComponent } from './form-validation/form-validation.component';
 import { FormTreeComponent } from './form-tree/form-tree.component';
 import { EditorComponent } from './editor/editor.component';
+import {  Imt103Component } from './incoming/imt103.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(FormRoutes), MdCardModule, MdIconModule, MdInputModule, MdRadioModule, MdButtonModule, MdProgressBarModule, MdToolbarModule, FlexLayoutModule, NgxDatatableModule, FormsModule, ReactiveFormsModule, FileUploadModule, TreeModule],
-  declarations: [FormUploadComponent, FormValidationComponent, FormTreeComponent, EditorComponent],
+  declarations: [ FormUploadComponent, FormValidationComponent, FormTreeComponent, EditorComponent],
 })
 
 export class FormModule {}

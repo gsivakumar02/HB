@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Linq;
 using System.Xml;
 using Newtonsoft.Json;
 using FTS.Common.BaseClasses.CORE.GenericServicedComponent;
@@ -32,6 +33,49 @@ namespace APS.Presentation.Web.WebAPI.Controllers
 
     public class Common
     {
+        public static void XmlDataAttributesToElements(XmlDocument xmlDocument)
+        {
+            if (xmlDocument == null || !xmlDocument.HasChildNodes || !xmlDocument.ChildNodes[0].HasChildNodes)
+                return;
+            XmlElement element = (XmlElement)xmlDocument.ChildNodes[0].ChildNodes[0];
+            foreach (XmlAttribute xmlAttribute in element.Attributes) {
+                element.AppendChild(xmlDocument.CreateElement(xmlAttribute.Name)).InnerText = xmlAttribute.Value;
+            }
+            element.Attributes.RemoveAll();
+        }
+
+        public static void XmlDataElementsToAttributes(XmlDocument xmlDocument)
+        {
+            if (xmlDocument == null || !xmlDocument.HasChildNodes || !xmlDocument.ChildNodes[0].HasChildNodes)
+                return;
+            XmlElement element = (XmlElement)xmlDocument.ChildNodes[0].ChildNodes[0];
+            foreach (XmlNode childNode in element.ChildNodes) {
+                element.SetAttribute(childNode.Name, childNode.InnerXml);
+            }
+            element.IsEmpty = true;
+        }
+
+        public static void DataRowFieldToJson(DataSet ds, string fieldName)
+        {
+            if (ds != null && ds.Tables[0].Rows.Count > 0) {
+                var dr = ds.Tables[0].Rows[0];
+                var doc = new XmlDocument();
+                doc.LoadXml((string)dr[fieldName]);
+                XmlDataAttributesToElements(doc);
+                dr[fieldName] = JsonConvert.SerializeXmlNode(doc);
+            }
+        }
+
+        public static void DataRowFieldToXml(DataSet ds, string fieldName)
+        {
+            if (ds != null && ds.Tables[0].Rows.Count > 0 && fieldName != "") {
+                var dr = ds.Tables[0].Rows[0];
+                var doc = JsonConvert.DeserializeXmlNode((string)dr[fieldName]);
+                XmlDataElementsToAttributes(doc);
+                dr[fieldName] = doc.OuterXml;
+            }
+        }
+
         public static ResponseDS GetById(GenericRetrieve obj, int id, bool withCache)
         {
             try {
@@ -67,29 +111,10 @@ namespace APS.Presentation.Web.WebAPI.Controllers
                 }
                 DataRowFieldToXml(ds, xmlField);
                 ds = obj.Update(ds);
-                return new ResponseDS(ds);
+                  return new ResponseDS(ds);
             } catch (Exception ex) {
                 return new ResponseDS(ex.Message, ex.ToString());
             } finally { obj.Dispose(); }
-        }
-
-        public static void DataRowFieldToJson(DataSet ds, string fieldName)
-        {
-            if (ds != null && ds.Tables[0].Rows.Count > 0) {
-                var dr = ds.Tables[0].Rows[0];
-                var doc = new XmlDocument();
-                doc.LoadXml((string)dr[fieldName]);
-                dr[fieldName] = JsonConvert.SerializeXmlNode(doc);
-            }
-        }
-
-        public static void DataRowFieldToXml(DataSet ds, string fieldName)
-        {
-            if (ds != null && ds.Tables[0].Rows.Count > 0 && fieldName != "") {
-                var dr = ds.Tables[0].Rows[0];
-                var doc = JsonConvert.DeserializeXmlNode((string)dr[fieldName]);
-                dr[fieldName] = doc.OuterXml;
-            }
         }
     }
 }

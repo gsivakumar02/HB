@@ -34,5 +34,6 @@ export class Orders {
     isOnline: Boolean;
     repaymentPriorityFlag: string;
     productCode: string;
+    xmL_Data:{};
   
 }
