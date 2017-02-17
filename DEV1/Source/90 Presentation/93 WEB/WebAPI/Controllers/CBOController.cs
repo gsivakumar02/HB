@@ -1,21 +1,23 @@
 using System;
-using Microsoft.AspNetCore.Mvc;
+using System.Web.Http;
 using FTS.DataAccess.CBO.Banks;
 using FTS.DataAccess.CBO.Services;
 
 namespace APS.Presentation.Web.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    public class CBOController: Controller
+    [RoutePrefix("api/CBO")]
+    public class CBOController: ApiController
     {
-        [HttpGet("BankById/{id:int}")]
+        [HttpGet]
+        [Route("BankById/{id:int}")]
         public ResponseDS BankById(int id)
         {
             var obj = new BanksR();
             return Common.GetById(obj, id, true);
         }
 
-        [HttpGet("SubBanksByBankId/{bankId:int}")]
+        [HttpGet]
+        [Route("SubBanksByBankId/{bankId:int}")]
         public ResponseDS SubBanksByBankId(int bankId)
         {
             var obj = new BanksR();
@@ -27,7 +29,8 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        [HttpGet("BranchesByBankId/{bankId:int}")]
+        [HttpGet]
+        [Route("BranchesByBankId/{bankId}")]
         public ResponseDS BranchesByBankId(int bankId)
         {
             var obj = new BranchesR();
@@ -39,7 +42,8 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        [HttpGet("IsoCodes")]
+        [HttpGet]
+        [Route("IsoCodes")]
         public ResponseDS IsoCodes()
         {
             var obj = new ReturnIsoCodesR();

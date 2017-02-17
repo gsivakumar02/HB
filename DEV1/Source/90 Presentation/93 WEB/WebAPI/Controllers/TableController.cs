@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Data;
-using Microsoft.AspNetCore.Mvc;
+using System.Web.Http;
 using FTS.Common.Constants.CORE;
 using FTS.DataAccess.CORE.SQLDataAccess;
 
 namespace APS.Presentation.Web.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    public class TableController : Controller
+    [RoutePrefix("api/Table")]
+    public class TableController : ApiController
     {
         // Get dataset from db by tablename and id
-        [HttpGet("{db:int}/{tablename:length(1,128)}/{id:int}")]
+        [HttpGet]
+        [Route("{db:int}/{tablename:length(1,128)}/{id:int}")]
         public ResponseDS Get(DataAccessServers db, string tablename, int id)
         {
             var cmdtext = "SELECT * FROM " + tablename + " WHERE Id=" + id;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using Microsoft.AspNetCore.Mvc;
+using System.Web.Http;
 using FTS.BusinessLogic.FTS.Facade;
 using FTS.Common.Constants.CORE;
 using FTS.Common.Constants.FTS;
@@ -10,8 +10,8 @@ using FTS.DataAccess.FTS.Orders;
 
 namespace APS.Presentation.Web.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    public class OrdersController: Controller
+    [RoutePrefix("api/Orders")]
+    public class OrdersController: ApiController
     {
         [HttpGet]
         public IEnumerable<string> Get()
@@ -19,7 +19,8 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             return new string[] { "value1", "value2" };
         }
 
-        [HttpGet("InOrderById/{id:int}")]
+        [HttpGet]
+        [Route("InOrderById/{id:int}")]
         public ResponseDS InOrderById(int id)
         {
             var obj = new InOrdersR();
@@ -28,7 +29,8 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             return rds;
         }
 
-        [HttpGet("OutOrderById/{id:int}")]
+        [HttpGet]
+        [Route("OutOrderById/{id:int}")]
         public ResponseDS OutOrderById(int id)
         {
             var obj = new OutOrdersR();
@@ -41,7 +43,7 @@ namespace APS.Presentation.Web.WebAPI.Controllers
         {
             public int BankId;
         }
-        public class RequestOrdersCounters : RequestBankId
+        public class RequestOrdersCounters: RequestBankId
         {
             public DateTime FromDate;
             public DateTime ToDate;
@@ -90,8 +92,9 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             public DateTime EntryDate;
         }
 
-       // Get order counters for orders monitor
-       [HttpPost("OrdersCounters")]
+        // Get order counters for orders monitor
+        [HttpPost]
+        [Route("OrdersCounters")]
         public ResponseDS OrdersCounters([FromBody]RequestOrdersCounters r)
         {
             var obj = new OrdersFacadeR();
@@ -105,7 +108,8 @@ namespace APS.Presentation.Web.WebAPI.Controllers
         }
 
         // Get order list for orders monitor
-        [HttpPost("OrdersList")]
+        [HttpPost]
+        [Route("OrdersList")]
         public ResponseDS OrdersList([FromBody]RequestOrdersList r)
         {
             var obj = new OrdersFacadeR();
@@ -119,7 +123,8 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        [HttpPost("IncomingAllPossibleCovers")]
+        [HttpPost]
+        [Route("IncomingAllPossibleCovers")]
         public ResponseDS IncomingAllPossibleCovers([FromBody]int orderId)
         {
             var obj = new IncomingCoverR();
@@ -131,7 +136,8 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        [HttpPost("IncomingCover202ForCover")]
+        [HttpPost]
+        [Route("IncomingCover202ForCover")]
         public ResponseDS IncomingCover202ForCover([FromBody]RequestIncomingCoverOrderId r)
         {
             var obj = new IncomingCoverR();
@@ -145,7 +151,8 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        [HttpPost("IncomingConfirmationOrdersForMT900")]
+        [HttpPost]
+        [Route("IncomingConfirmationOrdersForMT900")]
         public ResponseDS IncomingConfirmationOrdersForMT900([FromBody]RequestIncomingCover r)
         {
             var obj = new IncomingCoverR();
@@ -159,7 +166,8 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        [HttpPost("IncomingConfirmationOrders")]
+        [HttpPost]
+        [Route("IncomingConfirmationOrders")]
         public ResponseDS IncomingConfirmationOrders([FromBody]RequestIncomingCover r)
         {
             var obj = new IncomingCoverR();
@@ -173,7 +181,8 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        [HttpPost("IncomingExtraitOrders")]
+        [HttpPost]
+        [Route("IncomingExtraitOrders")]
         public ResponseDS IncomingExtraitOrders([FromBody]RequestIncomingCover r)
         {
             var obj = new IncomingCoverR();
@@ -187,7 +196,8 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        [HttpPost("IncomingCustomerCreditTransferOrders")]
+        [HttpPost]
+        [Route("IncomingCustomerCreditTransferOrders")]
         public ResponseDS IncomingCustomerCreditTransferOrders([FromBody]RequestIncomingCover r)
         {
             var obj = new IncomingCoverR();
@@ -202,7 +212,8 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        [HttpPost("InOrdersByOrigOrderId")]
+        [HttpPost]
+        [Route("InOrdersByOrigOrderId")]
         public ResponseDS InOrdersByOrigOrderId([FromBody]RequestInOrdersByOrigOrderId r)
         {
             var obj = new InOrdersR();
@@ -215,7 +226,8 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        [HttpPost("InOrdersByOtherCoverId")]
+        [HttpPost]
+        [Route("InOrdersByOtherCoverId")]
         public ResponseDS InOrdersByOtherCoverId([FromBody]int recvRepId)
         {
             var obj = new InOrdersR();
@@ -227,7 +239,8 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        [HttpPost("InOrdersByRef")]
+        [HttpPost]
+        [Route("InOrdersByRef")]
         public ResponseDS InOrdersByRef([FromBody]RequestInOrdersByRef r)
         {
             var obj = new InOrdersR();
@@ -240,7 +253,8 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        [HttpPost("OutOrdersByFwdFromId")]
+        [HttpPost]
+        [Route("OutOrdersByFwdFromId")]
         public ResponseDS OutOrdersByFwdFromId([FromBody]RequestOutOrdersByFwdFromId r)
         {
             var obj = new OutOrdersR();
@@ -252,7 +266,8 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        [HttpPost("OutOrdersByStatus")]
+        [HttpPost]
+        [Route("OutOrdersByStatus")]
         public ResponseDS OutOrdersByStatus([FromBody]RequestOutOrdersByStatus r)
         {
             var obj = new OutOrdersR();
@@ -264,7 +279,8 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        [HttpPost("OutOrdersByTUN")]
+        [HttpPost]
+        [Route("OutOrdersByTUN")]
         public ResponseDS OutOrdersByTUN([FromBody]RequestOutOrdersByTUN r)
         {
             var obj = new OutOrdersR();
@@ -276,14 +292,16 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             } finally { obj.Dispose(); }
         }
 
-        [HttpPost("InOrdersAdd")]
+        [HttpPost]
+        [Route("InOrdersAdd")]
         public ResponseDS InOrdersAdd([FromBody]DataSet ds)
         {
             var obj = new InOrdersU();
             return Common.Update(obj, ds, true, "XML_Data");
         }
 
-        [HttpPost("OutOrdersAdd")]
+        [HttpPost]
+        [Route("OutOrdersAdd")]
         public ResponseDS OutOrdersAdd([FromBody]DataSet ds)
         {
             var obj = new OutOrdersU();
@@ -291,14 +309,16 @@ namespace APS.Presentation.Web.WebAPI.Controllers
         }
 
 
-        [HttpPut("InOrdersUpdate")]
+        [HttpPut]
+        [Route("InOrdersUpdate")]
         public ResponseDS InOrdersUpdate([FromBody]DataSet ds)
         {
             var obj = new InOrdersU();
             return Common.Update(obj, ds, false, "XML_Data");
         }
 
-        [HttpPut("OutOrdersUpdate")]
+        [HttpPut]
+        [Route("OutOrdersUpdate")]
         public ResponseDS OutOrdersUpdate([FromBody]DataSet ds)
         {
             var obj = new OutOrdersU();

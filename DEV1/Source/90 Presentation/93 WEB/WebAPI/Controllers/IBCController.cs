@@ -1,13 +1,13 @@
 using System;
-using Microsoft.AspNetCore.Mvc;
+using System.Web.Http;
 using FTS.DataAccess.IBC.Data;
 
 namespace APS.Presentation.Web.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    public class IBCController: Controller
+    [RoutePrefix("api/IBC")]
+    public class IBCController: ApiController
     {
-        [HttpGet("OrderCategoriesByBankId/{bankId:int}")]
+        [Route("OrderCategoriesByBankId/{bankId:int}")]
         public ResponseDS OrderCategoriesByBankId(int bankId)
         {
             var obj = new OrderCategoriesR();

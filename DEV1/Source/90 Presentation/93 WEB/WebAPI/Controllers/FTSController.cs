@@ -1,14 +1,14 @@
 using System;
-using Microsoft.AspNetCore.Mvc;
+using System.Web.Http;
 using FTS.Common.Constants.CORE;
 using FTS.DataAccess.FTS.OnlineConfigurator;
 
 namespace APS.Presentation.Web.WebAPI.Controllers
 {
-    [Route("api/[controller]")]
-    public class FTSController: Controller
+    [RoutePrefix("api/FTS")]
+    public class FTSController: ApiController
     {
-        [HttpGet("CorrespondentBICsByBankId/{bankId:int}")]
+        [Route("CorrespondentBICsByBankId/{bankId:int}")]
         public ResponseDS CorrespondentBICsByBankId(int bankId)
         {
             var cmdText =
@@ -17,7 +17,7 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             return Common.GetBySelect(DataAccessServers.FTS, "FTS_Correspondents_Distinct", cmdText);
         }
 
-        [HttpGet("CorrespondentAccountsByBankId/{bankId:int}")]
+        [Route("CorrespondentAccountsByBankId/{bankId:int}")]
         public ResponseDS CorrespondentAccountsByBankId(int bankId)
         {
             var cmdText =
@@ -26,7 +26,7 @@ namespace APS.Presentation.Web.WebAPI.Controllers
             return Common.GetBySelect(DataAccessServers.FTS, "FTS_Correspondents", cmdText);
         }
 
-        [HttpGet("ActiveServiceTypesByBankId/{bankId:int}")]
+        [Route("ActiveServiceTypesByBankId/{bankId:int}")]
         public ResponseDS ActiveServiceTypesByBankId(int bankId)
         {
             var obj = new ActiveServiceTypesR();
