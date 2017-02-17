@@ -19,7 +19,7 @@ export class OrdersService {
     //        .map((res: Response) => res.json())
     //        .catch((error: any) => Observable.throw(error.json().error || 'Server Error'));
     //}
-    private baseUrl =  'http://localhost:1692';
+    private baseUrl =  'http://localhost:5000';
     public getByStatus(status: Number): Observable<Orders[]> {
         var data = {
             "bankId": 1,

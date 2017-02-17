@@ -9,6 +9,7 @@ namespace WebAPI
     {
         public static void Register(HttpConfiguration config)
         {
+            config.EnableCors(new System.Web.Http.Cors.EnableCorsAttribute("*", "*", "*"));
             // Web API configuration and services
 
             // Web API routes
@@ -22,6 +23,8 @@ namespace WebAPI
 
             config.Formatters.JsonFormatter.SupportedMediaTypes
                 .Add(new System.Net.Http.Headers.MediaTypeHeaderValue("text/html"));
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+            config.Formatters.JsonFormatter.UseDataContractJsonSerializer = false;
         }
     }
 }
