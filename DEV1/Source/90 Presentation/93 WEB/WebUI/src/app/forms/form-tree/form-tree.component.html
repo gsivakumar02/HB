@@ -10,7 +10,6 @@
         <form class="mb-1">
           <md-input placeholder="Filter nodes" #filter (keyup)="filterNodes(filter.value, tree)" style="width: 100%"></md-input>
         </form>
-
         <Tree
           #tree
           [nodes]="nodes"

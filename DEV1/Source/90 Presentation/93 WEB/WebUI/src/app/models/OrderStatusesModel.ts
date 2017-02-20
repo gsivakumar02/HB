@@ -1,8 +1,9 @@
-export const enum InOrderStatus {
-
+export enum MsgIO {
+    I = 1, // Messages from BANK to Other Organisations"
+    O = 2 // Messages from Other Organisations to BANK
 }
 
-export const enum FTSOutgoingOrderStatus {
+export enum FTSOutgoingOrderStatus {
     INITIAL = 0,
     AUTO_READY = 1,
     REPAIR = 2,
@@ -28,7 +29,8 @@ export const enum FTSOutgoingOrderStatus {
     AML_WAIT_RESPONSE = 22,
     AML_FREE = 23,
     AML_BLOCK = 24,
-    AML_ERROR = 25
+    AML_ERROR = 25,
+    NUM_OF_ENUMS
 }
 
 export enum FTSIncomingOrderStatus{
@@ -61,7 +63,8 @@ export enum FTSIncomingOrderStatus{
     SETTLED_OK_WAIT = 26,
     PAID_OK_NOT_COMPLETED = 27,
     RETURNED_NOT_COMPLETED = 28,
-    SETTLED_OK_PENDING = 29
+    SETTLED_OK_PENDING = 29,
+    NUM_OF_ENUMS
 }
 
 export class OrderStatusesModel {
@@ -70,4 +73,9 @@ export class OrderStatusesModel {
     MsgIO: string;
     Count: Number;
     Category : string;
+    constructor(msgIO: string, status: Number, description: string){
+        this.MsgIO = msgIO;
+        this.Status = status;
+        this.Description = description
+    }
 }
